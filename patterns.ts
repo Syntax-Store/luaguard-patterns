@@ -1,37 +1,6 @@
 import { SecurityPattern } from "@/types/security"
 
 export const SECURITY_PATTERNS: Record<string, SecurityPattern[]> = {
-  // DIRECT SERVER THREATS
-  serverThreats: [
-    {
-      pattern: /TriggerServerEvent\s*\(\s*['"`](.+?)['"`].*?\)/g,
-      title: "Unprotected server event",
-      description: "Server event triggered without proper protection",
-      severity: "critical",
-      suggestion: "Add permission checks (e.g., IsPlayerAceAllowed), rate limiting, and data validation before triggering server events. Example: if IsPlayerAceAllowed(source, 'command.example') then"
-    },
-    {
-      pattern: /(os\.|io\.|execute|load|dofile|loadstring|require)\s*\(/g,
-      title: "Dangerous core function",
-      description: "Usage of dangerous core functions that could lead to RCE",
-      severity: "critical",
-      suggestion: "Never use these functions directly. Instead, use safe alternatives like json.encode/decode for data handling, or create a whitelist of allowed operations"
-    },
-    {
-      pattern: /mysql\.|MariaDB|SQLExecute|ExecuteSQL|sqlite/gi,
-      title: "Unprotected database operation",
-      description: "Database operation without proper protection",
-      severity: "critical",
-      suggestion: "Use prepared statements and parameterized queries. Example: MySQL.Async.execute('SELECT * FROM users WHERE id = ?', {id}, function(result))"
-    },
-    {
-      pattern: /ExecuteCommand|SendCommand|RegisterCommand|CreateCommand/g,
-      title: "Unsafe command system usage",
-      description: "Command system usage without proper protection",
-      severity: "critical",
-      suggestion: "Implement ACE permissions, sanitize inputs, and use command restrictions. Example: RegisterCommand('cmd', function(source, args) if IsPlayerAceAllowed(source, 'cmd.use') then"
-    }
-  ],
 
   // NETWORK SECURITY
   networkSecurity: [

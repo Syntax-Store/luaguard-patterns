@@ -1,8 +1,6 @@
 import { SecurityPattern } from "@/types/security"
 
 export const SECURITY_PATTERNS: Record<string, SecurityPattern[]> = {
-
-
   // PLAYER EXPLOITS
   playerExploits: [
     {
@@ -18,13 +16,50 @@ export const SECURITY_PATTERNS: Record<string, SecurityPattern[]> = {
       description: "Player state changes without server validation",
       severity: "high",
       suggestion: "Move state changes server-side and implement periodic state verification checks"
-    },
-    {
-      pattern: /GiveWeaponToPed|RemoveWeaponFromPed|SetPedAmmo/g,
-      title: "Weapon manipulation",
-      description: "Weapon changes without proper validation",
-      severity: "high",
-      suggestion: "Use server-side weapon management and implement ammo tracking. Example: if IsWeaponAllowed(weaponHash) and CheckAmmoLimit(ammo) then"
     }
   ],
+
+  // NETWORK EXPLOITS
+  networkExploits: [
+    {
+      pattern: /TriggerServerEvent|TriggerEvent/g,
+      title: "Unprotected event triggers",
+      description: "Events being triggered without rate limiting or validation",
+      severity: "critical",
+      suggestion: "Implement rate limiting and add validation checks for event parameters"
+    }
+  ],
+
+  // RESOURCE EXPLOITS
+  resourceExploits: [
+    {
+      pattern: /LoadResourceFile|SaveResourceFile/g,
+      title: "Resource file manipulation",
+      description: "Direct resource file access without proper validation",
+      severity: "high",
+      suggestion: "Restrict file operations to specific directories and validate file paths"
+    }
+  ],
+
+  // EVENT HANDLING
+  eventHandling: [
+    {
+      pattern: /RegisterNetEvent.*\(["'].*["']\)/g,
+      title: "Insecure event registration",
+      description: "Network event registered without proper handler validation",
+      severity: "medium",
+      suggestion: "Add source validation and parameter checking in event handlers"
+    }
+  ],
+
+  // Add your custom categories and patterns below
+  customPatterns: [
+    {
+      pattern: /YourCustomPattern/g,
+      title: "Custom security check",
+      description: "Description of what this pattern checks for",
+      severity: "low",
+      suggestion: "How to fix or prevent this security issue"
+    }
+  ]
 }

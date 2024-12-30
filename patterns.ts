@@ -2,55 +2,6 @@ import { SecurityPattern } from "@/types/security"
 
 export const SECURITY_PATTERNS: Record<string, SecurityPattern[]> = {
 
-  // NETWORK SECURITY
-  networkSecurity: [
-    {
-      pattern: /NetworkGetNetworkIdFrom|NetworkGetEntityFromNetworkId|NetworkGetPlayerIndexFromPed/g,
-      title: "Network ID manipulation",
-      description: "Potential entity spoofing through network ID manipulation",
-      severity: "high",
-      suggestion: "Always verify entity ownership and validity before operations. Example: if NetworkGetEntityOwner(entity) == source and DoesEntityExist(entity) then"
-    },
-    {
-      pattern: /NetworkSetEntityInvisibleToNetwork|NetworkSetEntityVisibleToNetwork/g,
-      title: "Network visibility manipulation",
-      description: "Entity visibility manipulation without validation",
-      severity: "high",
-      suggestion: "Implement server-side validation of visibility changes and maintain a whitelist of allowed invisible entities"
-    },
-    {
-      pattern: /NetworkGetEntityOwner|NetworkSetEntityOwner|NetworkHasControlOfEntity/g,
-      title: "Entity ownership manipulation",
-      description: "Entity control exploitation through ownership changes",
-      severity: "high",
-      suggestion: "Verify ownership before modifications and implement timeout checks. Example: if NetworkHasControlOfEntity(entity) and GetGameTimer() - lastCheck < 1000 then"
-    }
-  ],
-
-  // ENTITY EXPLOITATION
-  entityExploitation: [
-    {
-      pattern: /CreateObject|CreateVehicle|CreatePed|CreatePickup/g,
-      title: "Unprotected entity spawning",
-      description: "Entity spawning without proper limits or validation",
-      severity: "high",
-      suggestion: "Implement spawn rate limiting, position validation, and maintain spawn limits per player. Example: if GetEntityCreatedBy(source) < maxEntities then"
-    },
-    {
-      pattern: /SetEntityCoords|SetEntityHeading|SetEntityRotation/g,
-      title: "Entity position manipulation",
-      description: "Entity position changes without validation",
-      severity: "high",
-      suggestion: "Add position validation, speed checks, and teleport detection. Example: if #(GetEntityCoords(entity) - newCoords) < maxDistance then"
-    },
-    {
-      pattern: /AttachEntityToEntity|AttachEntityBoneToEntityBone/g,
-      title: "Unsafe entity attachment",
-      description: "Entity attachment without proper validation",
-      severity: "high",
-      suggestion: "Implement attachment whitelist, validate both entities, and check attachment distances. Example: if IsValidAttachment(entity1, entity2) then"
-    }
-  ],
 
   // PLAYER EXPLOITS
   playerExploits: [
